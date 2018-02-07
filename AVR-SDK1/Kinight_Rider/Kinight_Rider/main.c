@@ -53,7 +53,7 @@ int main(void)
 			// Write the value from the array to the port
 			PORTD = animation[i];
 			
-			// Wait 100 ms before going to the next frame
+			// Wait 30 ms before going to the next frame
 			_delay_ms(30);
 		}
 	}
