@@ -10,10 +10,12 @@
 #include <util/delay.h>
 
 int main(void) {
-	DDRD = 0xFF;
+	DDRD = 0xFF;			//set direction to output
 	
 	while(1) {
-		PORTD ^= (1 << 7);	//toggle bit 7
+		PORTD ^= (1 << 7);	/*toggle bit 7 with XOR, flips from 1 to 0, parenthesis just
+							 contains the masking operation so the XOR could XOR the whole mask and
+							  not just the "1" before the left shift "<<". */
 		_delay_ms(250);
 	}
 }
