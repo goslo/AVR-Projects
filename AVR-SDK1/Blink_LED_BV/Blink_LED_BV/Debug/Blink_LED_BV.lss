@@ -1,0 +1,137 @@
+
+Blink_LED_BV.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000006a  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000000be  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000000be  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000000f0  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000028  00000000  00000000  0000012c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000005f9  00000000  00000000  00000154  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000557  00000000  00000000  0000074d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000272  00000000  00000000  00000ca4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000034  00000000  00000000  00000f18  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000317  00000000  00000000  00000f4c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    0000006e  00000000  00000000  00001263  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000018  00000000  00000000  000012d1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	19 c0       	rjmp	.+50     	; 0x36 <__bad_interrupt>
+   4:	18 c0       	rjmp	.+48     	; 0x36 <__bad_interrupt>
+   6:	17 c0       	rjmp	.+46     	; 0x36 <__bad_interrupt>
+   8:	16 c0       	rjmp	.+44     	; 0x36 <__bad_interrupt>
+   a:	15 c0       	rjmp	.+42     	; 0x36 <__bad_interrupt>
+   c:	14 c0       	rjmp	.+40     	; 0x36 <__bad_interrupt>
+   e:	13 c0       	rjmp	.+38     	; 0x36 <__bad_interrupt>
+  10:	12 c0       	rjmp	.+36     	; 0x36 <__bad_interrupt>
+  12:	11 c0       	rjmp	.+34     	; 0x36 <__bad_interrupt>
+  14:	10 c0       	rjmp	.+32     	; 0x36 <__bad_interrupt>
+  16:	0f c0       	rjmp	.+30     	; 0x36 <__bad_interrupt>
+  18:	0e c0       	rjmp	.+28     	; 0x36 <__bad_interrupt>
+  1a:	0d c0       	rjmp	.+26     	; 0x36 <__bad_interrupt>
+  1c:	0c c0       	rjmp	.+24     	; 0x36 <__bad_interrupt>
+  1e:	0b c0       	rjmp	.+22     	; 0x36 <__bad_interrupt>
+  20:	0a c0       	rjmp	.+20     	; 0x36 <__bad_interrupt>
+  22:	09 c0       	rjmp	.+18     	; 0x36 <__bad_interrupt>
+  24:	08 c0       	rjmp	.+16     	; 0x36 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+  32:	0d d0       	rcall	.+26     	; 0x4e <main>
+  34:	18 c0       	rjmp	.+48     	; 0x66 <_exit>
+
+00000036 <__bad_interrupt>:
+  36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
+
+00000038 <delay_ms>:
+#include <avr/io.h>
+#include <util/delay.h>
+
+/* function for long delay */
+void delay_ms(uint16_t ms) {
+  while ( ms )
+  38:	00 97       	sbiw	r24, 0x00	; 0
+  3a:	41 f0       	breq	.+16     	; 0x4c <__SREG__+0xd>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  3c:	e7 ee       	ldi	r30, 0xE7	; 231
+  3e:	f3 e0       	ldi	r31, 0x03	; 3
+  40:	31 97       	sbiw	r30, 0x01	; 1
+  42:	f1 f7       	brne	.-4      	; 0x40 <__SREG__+0x1>
+  44:	00 c0       	rjmp	.+0      	; 0x46 <__SREG__+0x7>
+  46:	00 00       	nop
+  {
+    _delay_ms(1);
+    ms--;
+  48:	01 97       	sbiw	r24, 0x01	; 1
+#include <avr/io.h>
+#include <util/delay.h>
+
+/* function for long delay */
+void delay_ms(uint16_t ms) {
+  while ( ms )
+  4a:	c1 f7       	brne	.-16     	; 0x3c <delay_ms+0x4>
+  4c:	08 95       	ret
+
+0000004e <main>:
+}
+
+int main (void)
+{
+  /* POPRTD is digital output */
+      DDRD  = 0xff;                  // use all pins on PortD for output
+  4e:	8f ef       	ldi	r24, 0xFF	; 255
+  50:	81 bb       	out	0x11, r24	; 17
+	  PORTD = 0x00;                  // set output low -> turn all LEDs off
+  52:	12 ba       	out	0x12, r1	; 18
+
+  /* loop forever */
+  while (1)
+  {
+    /* clear PD0 on PORTD (digital high) and delay for 1 Second */
+    PORTD &= ~_BV(0);
+  54:	90 98       	cbi	0x12, 0	; 18
+    delay_ms(1000);
+  56:	88 ee       	ldi	r24, 0xE8	; 232
+  58:	93 e0       	ldi	r25, 0x03	; 3
+  5a:	ee df       	rcall	.-36     	; 0x38 <delay_ms>
+
+    /* set PD0 on PORTD (digital low) and delay for 1 Second */
+    PORTD |= _BV(0);
+  5c:	90 9a       	sbi	0x12, 0	; 18
+    delay_ms(1000);
+  5e:	88 ee       	ldi	r24, 0xE8	; 232
+  60:	93 e0       	ldi	r25, 0x03	; 3
+  62:	ea df       	rcall	.-44     	; 0x38 <delay_ms>
+  64:	f7 cf       	rjmp	.-18     	; 0x54 <main+0x6>
+
+00000066 <_exit>:
+  66:	f8 94       	cli
+
+00000068 <__stop_program>:
+  68:	ff cf       	rjmp	.-2      	; 0x68 <__stop_program>
