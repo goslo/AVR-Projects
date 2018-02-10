@@ -1,0 +1,1 @@
+PORTD Bit 0 LED blinks slow until button 1 PORTC Bit 0 is pushed then LED blinks fast 
