@@ -1,0 +1,1 @@
+Push button 1 PORTC pin0 to toggle the first two LED's on PORTD pins 0 + 1. Has debounce routine built in.

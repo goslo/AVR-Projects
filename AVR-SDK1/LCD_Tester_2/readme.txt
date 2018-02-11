@@ -1,0 +1,1 @@
+This is a simple LCD display with no library functions...GTW
