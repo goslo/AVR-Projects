@@ -1,0 +1,1 @@
+This demos the sbit.h function, which might be handy down the road.
