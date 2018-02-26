@@ -1,0 +1,1 @@
+A button library to handle many switches directly connected to PORTX. Define the number on buttons first then add the varibles to the main loop. Main.c is an example of use.
