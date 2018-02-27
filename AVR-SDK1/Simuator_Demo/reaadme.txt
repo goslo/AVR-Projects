@@ -1,0 +1,1 @@
+Run in simulator. Run to break. Add watch to variables LED_NUM and i and watch them increment as you step through the program lines of codes with F11.
