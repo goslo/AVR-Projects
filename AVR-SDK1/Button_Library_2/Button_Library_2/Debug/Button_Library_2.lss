@@ -3,31 +3,31 @@ Button_Library_2.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000017e  00000000  00000000  00000074  2**1
+  0 .text         00000180  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000001f2  2**0
+  1 .data         00000000  00800060  00800060  000001f4  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000007  00800060  00800060  000001f2  2**0
+  2 .bss          00000007  00800060  00800060  000001f4  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000001f2  2**0
+  3 .comment      00000030  00000000  00000000  000001f4  2**0
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000224  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000028  00000000  00000000  00000260  2**0
+  5 .debug_aranges 00000030  00000000  00000000  00000260  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000006de  00000000  00000000  00000288  2**0
+  6 .debug_info   00000705  00000000  00000000  00000290  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000059a  00000000  00000000  00000966  2**0
+  7 .debug_abbrev 000005b6  00000000  00000000  00000995  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000030e  00000000  00000000  00000f00  2**0
+  8 .debug_line   0000032c  00000000  00000000  00000f4b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000034  00000000  00000000  00001210  2**2
+  9 .debug_frame  00000044  00000000  00000000  00001278  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000390  00000000  00000000  00001244  2**0
+ 10 .debug_str    000003a0  00000000  00000000  000012bc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000208  00000000  00000000  000015d4  2**0
+ 11 .debug_loc    00000214  00000000  00000000  0000165c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000030  00000000  00000000  000017dc  2**0
+ 12 .debug_ranges 00000020  00000000  00000000  00001870  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -74,8 +74,8 @@ Disassembly of section .text:
   3c:	a7 36       	cpi	r26, 0x67	; 103
   3e:	b2 07       	cpc	r27, r18
   40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
-  42:	59 d0       	rcall	.+178    	; 0xf6 <main>
-  44:	9a c0       	rjmp	.+308    	; 0x17a <_exit>
+  42:	72 d0       	rcall	.+228    	; 0x128 <main>
+  44:	9b c0       	rjmp	.+310    	; 0x17c <_exit>
 
 00000046 <__bad_interrupt>:
   46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
@@ -209,126 +209,138 @@ char ButtonPressed(int buttonNumber, unsigned char pinOfButton, unsigned char po
 }
   f4:	08 95       	ret
 
-000000f6 <main>:
+000000f6 <ProcessAllFlash>:
+		}
+	}
+}
 
-int LEDNum = 0;
-
-int main(void)
+void ProcessAllFlash()
 {
-	DDRD = 0xff;		//set PORTD for for all outputs
-  f6:	8f ef       	ldi	r24, 0xFF	; 255
-  f8:	81 bb       	out	0x11, r24	; 17
-	PORTD = 0x00;		//set output low -> turn all LEDs off
-  fa:	12 ba       	out	0x12, r1	; 18
-	DDRC = 0x00;		//set direction to all inputs
-  fc:	14 ba       	out	0x14, r1	; 20
-	PORTC = 0xff;		//turn on all pull up resistors
-  fe:	85 bb       	out	0x15, r24	; 21
-	while(1)
+  f6:	8a e0       	ldi	r24, 0x0A	; 10
+  f8:	90 e0       	ldi	r25, 0x00	; 0
+	for (int i=0;i < 10;i++)				//flash all LED's 10 times
 	{
-		//ButtonPressed(int buttonNumber, unsigned char pinOfButton, unsigned char portBit, int confidenceLevel)
-		if (ButtonPressed(0,PINC,0,100))
-		{
-			PORTD |= (1<< LEDNum);
- 100:	00 e6       	ldi	r16, 0x60	; 96
- 102:	10 e0       	ldi	r17, 0x00	; 0
- 104:	c1 e0       	ldi	r28, 0x01	; 1
- 106:	d0 e0       	ldi	r29, 0x00	; 0
-			{
-				for (int i=0;i < 10;i++)
-				{
-					PORTD = 0x00;;
-					_delay_ms(10);
-					PORTD = 0xff;
- 108:	ff 24       	eor	r15, r15
- 10a:	fa 94       	dec	r15
-	//PORTC |= (1<<1);	//activate Bit 1 internal pull up resistor
-	
-	while(1)
+		PORTD = 0x00;;
+		_delay_ms(10);
+		PORTD = 0xff;
+  fa:	2f ef       	ldi	r18, 0xFF	; 255
+
+void ProcessAllFlash()
+{
+	for (int i=0;i < 10;i++)				//flash all LED's 10 times
 	{
-		//ButtonPressed(int buttonNumber, unsigned char pinOfButton, unsigned char portBit, int confidenceLevel)
-		if (ButtonPressed(0,PINC,0,100))
- 10c:	63 b3       	in	r22, 0x13	; 19
- 10e:	24 e6       	ldi	r18, 0x64	; 100
- 110:	30 e0       	ldi	r19, 0x00	; 0
- 112:	40 e0       	ldi	r20, 0x00	; 0
- 114:	80 e0       	ldi	r24, 0x00	; 0
- 116:	90 e0       	ldi	r25, 0x00	; 0
- 118:	97 df       	rcall	.-210    	; 0x48 <ButtonPressed>
- 11a:	88 23       	and	r24, r24
- 11c:	b9 f3       	breq	.-18     	; 0x10c <main+0x16>
-		{
-			PORTD |= (1<< LEDNum);
- 11e:	22 b3       	in	r18, 0x12	; 18
- 120:	ce 01       	movw	r24, r28
- 122:	f8 01       	movw	r30, r16
- 124:	00 80       	ld	r0, Z
- 126:	02 c0       	rjmp	.+4      	; 0x12c <main+0x36>
- 128:	88 0f       	add	r24, r24
- 12a:	99 1f       	adc	r25, r25
- 12c:	0a 94       	dec	r0
- 12e:	e2 f7       	brpl	.-8      	; 0x128 <main+0x32>
- 130:	82 2b       	or	r24, r18
- 132:	82 bb       	out	0x12, r24	; 18
-			LEDNum ++;
- 134:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
- 138:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
- 13c:	01 96       	adiw	r24, 0x01	; 1
- 13e:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <_edata+0x1>
- 142:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
-			if (LEDNum >7)
- 146:	08 97       	sbiw	r24, 0x08	; 8
- 148:	0c f3       	brlt	.-62     	; 0x10c <main+0x16>
- 14a:	8a e0       	ldi	r24, 0x0A	; 10
- 14c:	90 e0       	ldi	r25, 0x00	; 0
-			{
-				for (int i=0;i < 10;i++)
-				{
-					PORTD = 0x00;;
- 14e:	12 ba       	out	0x12, r1	; 18
+		PORTD = 0x00;;
+  fc:	12 ba       	out	0x12, r1	; 18
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 150:	ef e0       	ldi	r30, 0x0F	; 15
- 152:	f7 e2       	ldi	r31, 0x27	; 39
- 154:	31 97       	sbiw	r30, 0x01	; 1
- 156:	f1 f7       	brne	.-4      	; 0x154 <main+0x5e>
- 158:	00 c0       	rjmp	.+0      	; 0x15a <main+0x64>
- 15a:	00 00       	nop
-					_delay_ms(10);
-					PORTD = 0xff;
- 15c:	f2 ba       	out	0x12, r15	; 18
- 15e:	ef e0       	ldi	r30, 0x0F	; 15
- 160:	f7 e2       	ldi	r31, 0x27	; 39
- 162:	31 97       	sbiw	r30, 0x01	; 1
- 164:	f1 f7       	brne	.-4      	; 0x162 <main+0x6c>
- 166:	00 c0       	rjmp	.+0      	; 0x168 <main+0x72>
- 168:	00 00       	nop
- 16a:	01 97       	sbiw	r24, 0x01	; 1
+  fe:	ef e0       	ldi	r30, 0x0F	; 15
+ 100:	f7 e2       	ldi	r31, 0x27	; 39
+ 102:	31 97       	sbiw	r30, 0x01	; 1
+ 104:	f1 f7       	brne	.-4      	; 0x102 <ProcessAllFlash+0xc>
+ 106:	00 c0       	rjmp	.+0      	; 0x108 <ProcessAllFlash+0x12>
+ 108:	00 00       	nop
+		_delay_ms(10);
+		PORTD = 0xff;
+ 10a:	22 bb       	out	0x12, r18	; 18
+ 10c:	ef e0       	ldi	r30, 0x0F	; 15
+ 10e:	f7 e2       	ldi	r31, 0x27	; 39
+ 110:	31 97       	sbiw	r30, 0x01	; 1
+ 112:	f1 f7       	brne	.-4      	; 0x110 <ProcessAllFlash+0x1a>
+ 114:	00 c0       	rjmp	.+0      	; 0x116 <ProcessAllFlash+0x20>
+ 116:	00 00       	nop
+ 118:	01 97       	sbiw	r24, 0x01	; 1
+	}
+}
+
+void ProcessAllFlash()
+{
+	for (int i=0;i < 10;i++)				//flash all LED's 10 times
+ 11a:	81 f7       	brne	.-32     	; 0xfc <ProcessAllFlash+0x6>
+		PORTD = 0x00;;
+		_delay_ms(10);
+		PORTD = 0xff;
+		_delay_ms(10);
+	}
+	LEDNum = 0;								//reset LED count
+ 11c:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <_edata+0x1>
+ 120:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+	PORTD = 0x00;							//turn off all LED's
+ 124:	12 ba       	out	0x12, r1	; 18
+ 126:	08 95       	ret
+
+00000128 <main>:
+ 
+int LEDNum = 0;
+
+int main(void)
+{
+	DDRD = 0xff;		//set PORTD for for all outputs
+ 128:	8f ef       	ldi	r24, 0xFF	; 255
+ 12a:	81 bb       	out	0x11, r24	; 17
+	PORTD = 0x00;		//set output low -> turn all LEDs off
+ 12c:	12 ba       	out	0x12, r1	; 18
+	DDRC = 0x00;		//set direction to all inputs
+ 12e:	14 ba       	out	0x14, r1	; 20
+	PORTC = 0xff;		//turn on all pull up resistors
+ 130:	85 bb       	out	0x15, r24	; 21
+	while(1)
+	{
+		//ButtonPressed(int buttonNumber, unsigned char pinOfButton, unsigned char portBit, int confidenceLevel)
+		if (ButtonPressed(0,PINC,0,100))	//check if button on PORTC Bit0 is pressed
 		{
-			PORTD |= (1<< LEDNum);
-			LEDNum ++;
-			if (LEDNum >7)
-			{
-				for (int i=0;i < 10;i++)
- 16c:	81 f7       	brne	.-32     	; 0x14e <main+0x58>
-					PORTD = 0x00;;
-					_delay_ms(10);
-					PORTD = 0xff;
-					_delay_ms(10);
-				}
-				LEDNum = 0;
- 16e:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <_edata+0x1>
- 172:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
-				PORTD = 0x00;
- 176:	12 ba       	out	0x12, r1	; 18
- 178:	c9 cf       	rjmp	.-110    	; 0x10c <main+0x16>
+			PORTD |= (1<< LEDNum);			//button pressed so light a LED
+ 132:	00 e6       	ldi	r16, 0x60	; 96
+ 134:	10 e0       	ldi	r17, 0x00	; 0
+ 136:	c1 e0       	ldi	r28, 0x01	; 1
+ 138:	d0 e0       	ldi	r29, 0x00	; 0
+	//PORTC |= (1<<1);	//activate Bit 1 internal pull up resistor
+	
+	while(1)
+	{
+		//ButtonPressed(int buttonNumber, unsigned char pinOfButton, unsigned char portBit, int confidenceLevel)
+		if (ButtonPressed(0,PINC,0,100))	//check if button on PORTC Bit0 is pressed
+ 13a:	63 b3       	in	r22, 0x13	; 19
+ 13c:	24 e6       	ldi	r18, 0x64	; 100
+ 13e:	30 e0       	ldi	r19, 0x00	; 0
+ 140:	40 e0       	ldi	r20, 0x00	; 0
+ 142:	80 e0       	ldi	r24, 0x00	; 0
+ 144:	90 e0       	ldi	r25, 0x00	; 0
+ 146:	80 df       	rcall	.-256    	; 0x48 <ButtonPressed>
+ 148:	88 23       	and	r24, r24
+ 14a:	b9 f3       	breq	.-18     	; 0x13a <main+0x12>
+		{
+			PORTD |= (1<< LEDNum);			//button pressed so light a LED
+ 14c:	22 b3       	in	r18, 0x12	; 18
+ 14e:	ce 01       	movw	r24, r28
+ 150:	f8 01       	movw	r30, r16
+ 152:	00 80       	ld	r0, Z
+ 154:	02 c0       	rjmp	.+4      	; 0x15a <main+0x32>
+ 156:	88 0f       	add	r24, r24
+ 158:	99 1f       	adc	r25, r25
+ 15a:	0a 94       	dec	r0
+ 15c:	e2 f7       	brpl	.-8      	; 0x156 <main+0x2e>
+ 15e:	82 2b       	or	r24, r18
+ 160:	82 bb       	out	0x12, r24	; 18
+			LEDNum ++;						//increase the LED count	
+ 162:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 166:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
+ 16a:	01 96       	adiw	r24, 0x01	; 1
+ 16c:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <_edata+0x1>
+ 170:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+			if (LEDNum >7)					//check if all LED's are lit
+ 174:	08 97       	sbiw	r24, 0x08	; 8
+ 176:	0c f3       	brlt	.-62     	; 0x13a <main+0x12>
+				{
+					ProcessAllFlash();		//yes all lit, so go and flash all LED's
+ 178:	be df       	rcall	.-132    	; 0xf6 <ProcessAllFlash>
+ 17a:	df cf       	rjmp	.-66     	; 0x13a <main+0x12>
 
-0000017a <_exit>:
- 17a:	f8 94       	cli
+0000017c <_exit>:
+ 17c:	f8 94       	cli
 
-0000017c <__stop_program>:
- 17c:	ff cf       	rjmp	.-2      	; 0x17c <__stop_program>
+0000017e <__stop_program>:
+ 17e:	ff cf       	rjmp	.-2      	; 0x17e <__stop_program>

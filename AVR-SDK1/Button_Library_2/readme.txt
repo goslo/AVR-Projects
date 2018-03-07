@@ -1,0 +1,1 @@
+This is another example of the button library use. It uses a prototype and a function to flash the LED's when the limit is reached.
