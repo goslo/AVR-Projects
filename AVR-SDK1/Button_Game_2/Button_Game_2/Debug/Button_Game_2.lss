@@ -1,0 +1,453 @@
+
+Button_Game_2.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000020e  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000282  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000000e  00800060  00800060  00000282  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000282  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002b4  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000030  00000000  00000000  000002f0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   0000075b  00000000  00000000  00000320  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000005ce  00000000  00000000  00000a7b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000003bf  00000000  00000000  00001049  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000044  00000000  00000000  00001408  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000003a8  00000000  00000000  0000144c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000027f  00000000  00000000  000017f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000058  00000000  00000000  00001a73  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
+   4:	20 c0       	rjmp	.+64     	; 0x46 <__bad_interrupt>
+   6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
+   8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
+   a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
+   c:	1c c0       	rjmp	.+56     	; 0x46 <__bad_interrupt>
+   e:	1b c0       	rjmp	.+54     	; 0x46 <__bad_interrupt>
+  10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
+  12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
+  14:	18 c0       	rjmp	.+48     	; 0x46 <__bad_interrupt>
+  16:	17 c0       	rjmp	.+46     	; 0x46 <__bad_interrupt>
+  18:	16 c0       	rjmp	.+44     	; 0x46 <__bad_interrupt>
+  1a:	15 c0       	rjmp	.+42     	; 0x46 <__bad_interrupt>
+  1c:	14 c0       	rjmp	.+40     	; 0x46 <__bad_interrupt>
+  1e:	13 c0       	rjmp	.+38     	; 0x46 <__bad_interrupt>
+  20:	12 c0       	rjmp	.+36     	; 0x46 <__bad_interrupt>
+  22:	11 c0       	rjmp	.+34     	; 0x46 <__bad_interrupt>
+  24:	10 c0       	rjmp	.+32     	; 0x46 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_clear_bss>:
+  32:	20 e0       	ldi	r18, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	01 c0       	rjmp	.+2      	; 0x3c <.do_clear_bss_start>
+
+0000003a <.do_clear_bss_loop>:
+  3a:	1d 92       	st	X+, r1
+
+0000003c <.do_clear_bss_start>:
+  3c:	ae 36       	cpi	r26, 0x6E	; 110
+  3e:	b2 07       	cpc	r27, r18
+  40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
+  42:	c3 d0       	rcall	.+390    	; 0x1ca <main>
+  44:	e2 c0       	rjmp	.+452    	; 0x20a <_exit>
+
+00000046 <__bad_interrupt>:
+  46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
+
+00000048 <ButtonPressed>:
+int Pressed_Confidence_Level[numberOfButtons]; //Measure button press confidence
+int Released_Confidence_Level[numberOfButtons]; //Measure button release confidence
+
+char ButtonPressed(int buttonNumber, unsigned char pinOfButton, unsigned char portBit, int confidenceLevel)
+{
+	if (~pinOfButton & (1<<portBit))
+  48:	70 e0       	ldi	r23, 0x00	; 0
+  4a:	60 95       	com	r22
+  4c:	70 95       	com	r23
+  4e:	02 c0       	rjmp	.+4      	; 0x54 <ButtonPressed+0xc>
+  50:	75 95       	asr	r23
+  52:	67 95       	ror	r22
+  54:	4a 95       	dec	r20
+  56:	e2 f7       	brpl	.-8      	; 0x50 <ButtonPressed+0x8>
+  58:	60 ff       	sbrs	r22, 0
+  5a:	2a c0       	rjmp	.+84     	; 0xb0 <ButtonPressed+0x68>
+	//if (~pinOfButton & (portBit<<0))
+	{
+		Pressed_Confidence_Level[buttonNumber] ++; //Increase Pressed Confidence
+  5c:	bc 01       	movw	r22, r24
+  5e:	66 0f       	add	r22, r22
+  60:	77 1f       	adc	r23, r23
+  62:	fb 01       	movw	r30, r22
+  64:	ec 59       	subi	r30, 0x9C	; 156
+  66:	ff 4f       	sbci	r31, 0xFF	; 255
+  68:	40 81       	ld	r20, Z
+  6a:	51 81       	ldd	r21, Z+1	; 0x01
+  6c:	4f 5f       	subi	r20, 0xFF	; 255
+  6e:	5f 4f       	sbci	r21, 0xFF	; 255
+  70:	51 83       	std	Z+1, r21	; 0x01
+  72:	40 83       	st	Z, r20
+		Released_Confidence_Level[buttonNumber] = 0; //Reset released button confidence since there is a button press
+  74:	fb 01       	movw	r30, r22
+  76:	e0 5a       	subi	r30, 0xA0	; 160
+  78:	ff 4f       	sbci	r31, 0xFF	; 255
+  7a:	11 82       	std	Z+1, r1	; 0x01
+  7c:	10 82       	st	Z, r1
+		if (Pressed_Confidence_Level[buttonNumber] > confidenceLevel) //Indicator of good button press
+  7e:	24 17       	cp	r18, r20
+  80:	35 07       	cpc	r19, r21
+  82:	ac f5       	brge	.+106    	; 0xee <ButtonPressed+0xa6>
+		{
+			if (Pressed[buttonNumber] == 0)
+  84:	fc 01       	movw	r30, r24
+  86:	e4 59       	subi	r30, 0x94	; 148
+  88:	ff 4f       	sbci	r31, 0xFF	; 255
+  8a:	20 81       	ld	r18, Z
+  8c:	21 11       	cpse	r18, r1
+  8e:	07 c0       	rjmp	.+14     	; 0x9e <ButtonPressed+0x56>
+			{
+				Pressed[buttonNumber] = 1;
+  90:	fc 01       	movw	r30, r24
+  92:	e4 59       	subi	r30, 0x94	; 148
+  94:	ff 4f       	sbci	r31, 0xFF	; 255
+  96:	21 e0       	ldi	r18, 0x01	; 1
+  98:	20 83       	st	Z, r18
+				return 1;
+  9a:	81 e0       	ldi	r24, 0x01	; 1
+  9c:	08 95       	ret
+			}
+			//Zero it so a new pressed condition can be evaluated
+			Pressed_Confidence_Level[buttonNumber] = 0;
+  9e:	88 0f       	add	r24, r24
+  a0:	99 1f       	adc	r25, r25
+  a2:	fc 01       	movw	r30, r24
+  a4:	ec 59       	subi	r30, 0x9C	; 156
+  a6:	ff 4f       	sbci	r31, 0xFF	; 255
+  a8:	11 82       	std	Z+1, r1	; 0x01
+  aa:	10 82       	st	Z, r1
+		{
+			Pressed[buttonNumber] = 0;
+			Released_Confidence_Level[buttonNumber] = 0;
+		}
+	}
+	return 0;
+  ac:	80 e0       	ldi	r24, 0x00	; 0
+  ae:	08 95       	ret
+			Pressed_Confidence_Level[buttonNumber] = 0;
+		}
+	}
+	else
+	{
+		Released_Confidence_Level[buttonNumber] ++; //This works just like the pressed
+  b0:	bc 01       	movw	r22, r24
+  b2:	66 0f       	add	r22, r22
+  b4:	77 1f       	adc	r23, r23
+  b6:	fb 01       	movw	r30, r22
+  b8:	e0 5a       	subi	r30, 0xA0	; 160
+  ba:	ff 4f       	sbci	r31, 0xFF	; 255
+  bc:	40 81       	ld	r20, Z
+  be:	51 81       	ldd	r21, Z+1	; 0x01
+  c0:	4f 5f       	subi	r20, 0xFF	; 255
+  c2:	5f 4f       	sbci	r21, 0xFF	; 255
+  c4:	51 83       	std	Z+1, r21	; 0x01
+  c6:	40 83       	st	Z, r20
+		Pressed_Confidence_Level[buttonNumber] = 0; //Reset pressed button confidence since the button is released
+  c8:	fb 01       	movw	r30, r22
+  ca:	ec 59       	subi	r30, 0x9C	; 156
+  cc:	ff 4f       	sbci	r31, 0xFF	; 255
+  ce:	11 82       	std	Z+1, r1	; 0x01
+  d0:	10 82       	st	Z, r1
+		if (Released_Confidence_Level[buttonNumber] > confidenceLevel)
+  d2:	24 17       	cp	r18, r20
+  d4:	35 07       	cpc	r19, r21
+  d6:	6c f4       	brge	.+26     	; 0xf2 <ButtonPressed+0xaa>
+		{
+			Pressed[buttonNumber] = 0;
+  d8:	fc 01       	movw	r30, r24
+  da:	e4 59       	subi	r30, 0x94	; 148
+  dc:	ff 4f       	sbci	r31, 0xFF	; 255
+  de:	10 82       	st	Z, r1
+			Released_Confidence_Level[buttonNumber] = 0;
+  e0:	fb 01       	movw	r30, r22
+  e2:	e0 5a       	subi	r30, 0xA0	; 160
+  e4:	ff 4f       	sbci	r31, 0xFF	; 255
+  e6:	11 82       	std	Z+1, r1	; 0x01
+  e8:	10 82       	st	Z, r1
+		}
+	}
+	return 0;
+  ea:	80 e0       	ldi	r24, 0x00	; 0
+  ec:	08 95       	ret
+  ee:	80 e0       	ldi	r24, 0x00	; 0
+  f0:	08 95       	ret
+  f2:	80 e0       	ldi	r24, 0x00	; 0
+}
+  f4:	08 95       	ret
+
+000000f6 <ProcessPressedButton>:
+			}		
+	}
+}
+void ProcessPressedButton(int ButtonID)					//function for button press
+{	
+	if (ButtonID == 0) PORTD |= 1 << LEDNum[ButtonID];	//increment LED's
+  f6:	00 97       	sbiw	r24, 0x00	; 0
+  f8:	b9 f4       	brne	.+46     	; 0x128 <ProcessPressedButton+0x32>
+  fa:	42 b3       	in	r20, 0x12	; 18
+  fc:	e8 e6       	ldi	r30, 0x68	; 104
+  fe:	f0 e0       	ldi	r31, 0x00	; 0
+ 100:	21 e0       	ldi	r18, 0x01	; 1
+ 102:	30 e0       	ldi	r19, 0x00	; 0
+ 104:	00 80       	ld	r0, Z
+ 106:	02 c0       	rjmp	.+4      	; 0x10c <ProcessPressedButton+0x16>
+ 108:	22 0f       	add	r18, r18
+ 10a:	33 1f       	adc	r19, r19
+ 10c:	0a 94       	dec	r0
+ 10e:	e2 f7       	brpl	.-8      	; 0x108 <ProcessPressedButton+0x12>
+ 110:	24 2b       	or	r18, r20
+ 112:	22 bb       	out	0x12, r18	; 18
+	if (ButtonID == 1) PORTB |= 1 << LEDNum[ButtonID];	//increment LED's
+	LEDNum[ButtonID] ++;								//increment LED count[for both sets of LED's
+ 114:	20 81       	ld	r18, Z
+ 116:	31 81       	ldd	r19, Z+1	; 0x01
+ 118:	2f 5f       	subi	r18, 0xFF	; 255
+ 11a:	3f 4f       	sbci	r19, 0xFF	; 255
+ 11c:	31 83       	std	Z+1, r19	; 0x01
+ 11e:	20 83       	st	Z, r18
+	if (LEDNum[ButtonID] >6)							//check if at limit
+ 120:	27 30       	cpi	r18, 0x07	; 7
+ 122:	31 05       	cpc	r19, r1
+ 124:	8c f4       	brge	.+34     	; 0x148 <ProcessPressedButton+0x52>
+ 126:	08 95       	ret
+	}
+}
+void ProcessPressedButton(int ButtonID)					//function for button press
+{	
+	if (ButtonID == 0) PORTD |= 1 << LEDNum[ButtonID];	//increment LED's
+	if (ButtonID == 1) PORTB |= 1 << LEDNum[ButtonID];	//increment LED's
+ 128:	81 30       	cpi	r24, 0x01	; 1
+ 12a:	91 05       	cpc	r25, r1
+ 12c:	c1 f5       	brne	.+112    	; 0x19e <ProcessPressedButton+0xa8>
+ 12e:	48 b3       	in	r20, 0x18	; 24
+ 130:	21 e0       	ldi	r18, 0x01	; 1
+ 132:	30 e0       	ldi	r19, 0x00	; 0
+ 134:	00 90 6a 00 	lds	r0, 0x006A	; 0x80006a <LEDNum+0x2>
+ 138:	02 c0       	rjmp	.+4      	; 0x13e <ProcessPressedButton+0x48>
+ 13a:	22 0f       	add	r18, r18
+ 13c:	33 1f       	adc	r19, r19
+ 13e:	0a 94       	dec	r0
+ 140:	e2 f7       	brpl	.-8      	; 0x13a <ProcessPressedButton+0x44>
+ 142:	24 2b       	or	r18, r20
+ 144:	28 bb       	out	0x18, r18	; 24
+ 146:	2b c0       	rjmp	.+86     	; 0x19e <ProcessPressedButton+0xa8>
+				ProcessPressedButton(1);			//go process button press
+			}		
+	}
+}
+void ProcessPressedButton(int ButtonID)					//function for button press
+{	
+ 148:	2a e0       	ldi	r18, 0x0A	; 10
+ 14a:	30 e0       	ldi	r19, 0x00	; 0
+		{
+			if (ButtonID == 0) PORTD = 0x00;
+			if (ButtonID == 1) PORTB = 0x00;
+			_delay_ms(10);
+			if (ButtonID == 0) PORTD = 0xff;
+			if (ButtonID == 1) PORTB = 0xff;
+ 14c:	4f ef       	ldi	r20, 0xFF	; 255
+	LEDNum[ButtonID] ++;								//increment LED count[for both sets of LED's
+	if (LEDNum[ButtonID] >6)							//check if at limit
+	{
+		for (int i=0;i < 10;i++)						//flash all LED's 10 times
+		{
+			if (ButtonID == 0) PORTD = 0x00;
+ 14e:	00 97       	sbiw	r24, 0x00	; 0
+ 150:	49 f4       	brne	.+18     	; 0x164 <ProcessPressedButton+0x6e>
+ 152:	12 ba       	out	0x12, r1	; 18
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 154:	ef e0       	ldi	r30, 0x0F	; 15
+ 156:	f7 e2       	ldi	r31, 0x27	; 39
+ 158:	31 97       	sbiw	r30, 0x01	; 1
+ 15a:	f1 f7       	brne	.-4      	; 0x158 <ProcessPressedButton+0x62>
+ 15c:	00 c0       	rjmp	.+0      	; 0x15e <ProcessPressedButton+0x68>
+ 15e:	00 00       	nop
+			if (ButtonID == 1) PORTB = 0x00;
+			_delay_ms(10);
+			if (ButtonID == 0) PORTD = 0xff;
+ 160:	42 bb       	out	0x12, r20	; 18
+ 162:	0b c0       	rjmp	.+22     	; 0x17a <ProcessPressedButton+0x84>
+	if (LEDNum[ButtonID] >6)							//check if at limit
+	{
+		for (int i=0;i < 10;i++)						//flash all LED's 10 times
+		{
+			if (ButtonID == 0) PORTD = 0x00;
+			if (ButtonID == 1) PORTB = 0x00;
+ 164:	81 30       	cpi	r24, 0x01	; 1
+ 166:	91 05       	cpc	r25, r1
+ 168:	49 f5       	brne	.+82     	; 0x1bc <ProcessPressedButton+0xc6>
+ 16a:	18 ba       	out	0x18, r1	; 24
+ 16c:	ef e0       	ldi	r30, 0x0F	; 15
+ 16e:	f7 e2       	ldi	r31, 0x27	; 39
+ 170:	31 97       	sbiw	r30, 0x01	; 1
+ 172:	f1 f7       	brne	.-4      	; 0x170 <ProcessPressedButton+0x7a>
+ 174:	00 c0       	rjmp	.+0      	; 0x176 <ProcessPressedButton+0x80>
+ 176:	00 00       	nop
+			_delay_ms(10);
+			if (ButtonID == 0) PORTD = 0xff;
+			if (ButtonID == 1) PORTB = 0xff;
+ 178:	48 bb       	out	0x18, r20	; 24
+ 17a:	ef e0       	ldi	r30, 0x0F	; 15
+ 17c:	f7 e2       	ldi	r31, 0x27	; 39
+ 17e:	31 97       	sbiw	r30, 0x01	; 1
+ 180:	f1 f7       	brne	.-4      	; 0x17e <ProcessPressedButton+0x88>
+ 182:	00 c0       	rjmp	.+0      	; 0x184 <ProcessPressedButton+0x8e>
+ 184:	00 00       	nop
+ 186:	21 50       	subi	r18, 0x01	; 1
+ 188:	31 09       	sbc	r19, r1
+	if (ButtonID == 0) PORTD |= 1 << LEDNum[ButtonID];	//increment LED's
+	if (ButtonID == 1) PORTB |= 1 << LEDNum[ButtonID];	//increment LED's
+	LEDNum[ButtonID] ++;								//increment LED count[for both sets of LED's
+	if (LEDNum[ButtonID] >6)							//check if at limit
+	{
+		for (int i=0;i < 10;i++)						//flash all LED's 10 times
+ 18a:	09 f7       	brne	.-62     	; 0x14e <ProcessPressedButton+0x58>
+			_delay_ms(10);
+			if (ButtonID == 0) PORTD = 0xff;
+			if (ButtonID == 1) PORTB = 0xff;
+			_delay_ms(10);
+		}
+		LEDNum[0] = 0;
+ 18c:	e8 e6       	ldi	r30, 0x68	; 104
+ 18e:	f0 e0       	ldi	r31, 0x00	; 0
+ 190:	11 82       	std	Z+1, r1	; 0x01
+ 192:	10 82       	st	Z, r1
+		LEDNum[1] = 0;
+ 194:	13 82       	std	Z+3, r1	; 0x03
+ 196:	12 82       	std	Z+2, r1	; 0x02
+		PORTD = 0x00;
+ 198:	12 ba       	out	0x12, r1	; 18
+		PORTB = 0x00;
+ 19a:	18 ba       	out	0x18, r1	; 24
+	}	
+}
+ 19c:	08 95       	ret
+}
+void ProcessPressedButton(int ButtonID)					//function for button press
+{	
+	if (ButtonID == 0) PORTD |= 1 << LEDNum[ButtonID];	//increment LED's
+	if (ButtonID == 1) PORTB |= 1 << LEDNum[ButtonID];	//increment LED's
+	LEDNum[ButtonID] ++;								//increment LED count[for both sets of LED's
+ 19e:	fc 01       	movw	r30, r24
+ 1a0:	ee 0f       	add	r30, r30
+ 1a2:	ff 1f       	adc	r31, r31
+ 1a4:	e8 59       	subi	r30, 0x98	; 152
+ 1a6:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1a8:	20 81       	ld	r18, Z
+ 1aa:	31 81       	ldd	r19, Z+1	; 0x01
+ 1ac:	2f 5f       	subi	r18, 0xFF	; 255
+ 1ae:	3f 4f       	sbci	r19, 0xFF	; 255
+ 1b0:	31 83       	std	Z+1, r19	; 0x01
+ 1b2:	20 83       	st	Z, r18
+	if (LEDNum[ButtonID] >6)							//check if at limit
+ 1b4:	27 30       	cpi	r18, 0x07	; 7
+ 1b6:	31 05       	cpc	r19, r1
+ 1b8:	3c f6       	brge	.-114    	; 0x148 <ProcessPressedButton+0x52>
+ 1ba:	08 95       	ret
+ 1bc:	ef e0       	ldi	r30, 0x0F	; 15
+ 1be:	f7 e2       	ldi	r31, 0x27	; 39
+ 1c0:	31 97       	sbiw	r30, 0x01	; 1
+ 1c2:	f1 f7       	brne	.-4      	; 0x1c0 <ProcessPressedButton+0xca>
+ 1c4:	00 c0       	rjmp	.+0      	; 0x1c6 <ProcessPressedButton+0xd0>
+ 1c6:	00 00       	nop
+ 1c8:	d8 cf       	rjmp	.-80     	; 0x17a <ProcessPressedButton+0x84>
+
+000001ca <main>:
+
+int LEDNum[2];				//LED count
+
+int main(void)
+{
+	DDRB = 0xff;		//set PORTB for all outputs
+ 1ca:	8f ef       	ldi	r24, 0xFF	; 255
+ 1cc:	87 bb       	out	0x17, r24	; 23
+	PORTB = 0x00;		//set output low -> turn all LEDs off
+ 1ce:	18 ba       	out	0x18, r1	; 24
+	DDRD = 0xff;		//set PORTD for for all outputs
+ 1d0:	81 bb       	out	0x11, r24	; 17
+	PORTD = 0x00;		//set output low -> turn all LEDs off
+ 1d2:	12 ba       	out	0x12, r1	; 18
+	DDRC = 0x00;		//set direction to all inputs
+ 1d4:	14 ba       	out	0x14, r1	; 20
+	PORTC = 0xff;		//turn on all pull up resistors
+ 1d6:	85 bb       	out	0x15, r24	; 21
+	
+	while(1)
+	{
+		if (ButtonPressed(0,PINC,0,100))			//check if button on PORTC Bit 0 is pressed
+ 1d8:	63 b3       	in	r22, 0x13	; 19
+ 1da:	24 e6       	ldi	r18, 0x64	; 100
+ 1dc:	30 e0       	ldi	r19, 0x00	; 0
+ 1de:	40 e0       	ldi	r20, 0x00	; 0
+ 1e0:	80 e0       	ldi	r24, 0x00	; 0
+ 1e2:	90 e0       	ldi	r25, 0x00	; 0
+ 1e4:	31 df       	rcall	.-414    	; 0x48 <ButtonPressed>
+ 1e6:	88 23       	and	r24, r24
+ 1e8:	19 f0       	breq	.+6      	; 0x1f0 <main+0x26>
+			{
+				ProcessPressedButton(0);			//go process button press
+ 1ea:	80 e0       	ldi	r24, 0x00	; 0
+ 1ec:	90 e0       	ldi	r25, 0x00	; 0
+ 1ee:	83 df       	rcall	.-250    	; 0xf6 <ProcessPressedButton>
+			}
+		if (ButtonPressed(1,PINC,3,100))			//check if button on PORTC Bit 3 is pressed
+ 1f0:	63 b3       	in	r22, 0x13	; 19
+ 1f2:	24 e6       	ldi	r18, 0x64	; 100
+ 1f4:	30 e0       	ldi	r19, 0x00	; 0
+ 1f6:	43 e0       	ldi	r20, 0x03	; 3
+ 1f8:	81 e0       	ldi	r24, 0x01	; 1
+ 1fa:	90 e0       	ldi	r25, 0x00	; 0
+ 1fc:	25 df       	rcall	.-438    	; 0x48 <ButtonPressed>
+ 1fe:	88 23       	and	r24, r24
+ 200:	59 f3       	breq	.-42     	; 0x1d8 <main+0xe>
+			{
+				ProcessPressedButton(1);			//go process button press
+ 202:	81 e0       	ldi	r24, 0x01	; 1
+ 204:	90 e0       	ldi	r25, 0x00	; 0
+ 206:	77 df       	rcall	.-274    	; 0xf6 <ProcessPressedButton>
+ 208:	e7 cf       	rjmp	.-50     	; 0x1d8 <main+0xe>
+
+0000020a <_exit>:
+ 20a:	f8 94       	cli
+
+0000020c <__stop_program>:
+ 20c:	ff cf       	rjmp	.-2      	; 0x20c <__stop_program>
